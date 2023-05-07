@@ -2,12 +2,10 @@
 Adapters package test suit
 """
 
-
-import pytest
 import unittest
 
 from src.constants import TEST_DATA
-from src.adapters import AdapterJson
+from src.question_adapters import AdapterJson
 
 
 class AdapterJsonTest(unittest.TestCase):
