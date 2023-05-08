@@ -73,7 +73,8 @@ class AdapterJson(Adapter):
                              category=q_data["category"],
                              labels=set(q_data["labels"]),
                              complexity=ComplexityLevel(q_data["complexity"]),
-                             possible_answers=q_data["possible_answers"]
+                             possible_answers=q_data["possible_answers"],
+                             correct_answers=q_data["correct"]
                              )
                     for _, q_data in questions_data.items()]
 

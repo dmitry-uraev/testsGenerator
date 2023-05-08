@@ -10,13 +10,13 @@ try:
     from src.question_manager import QuestionManager
     from src.question import Question, QuestionQueryLine, \
         ComplexityLevel, QuestionRecommendation
-    from src.constants import TEST_DATA
+    from src.constants import TEST_DATA, SRC_FOLDER
 except ModuleNotFoundError:
     from question_adapters import AdapterJson
     from question_manager import QuestionManager
     from question import Question, QuestionQueryLine, \
         ComplexityLevel, QuestionRecommendation
-    from constants import TEST_DATA
+    from constants import TEST_DATA, SRC_FOLDER
 
 
 class RandomQuestionGenerator:
@@ -64,7 +64,7 @@ class RandomQuestionGenerator:
         """
         if not query.labels or not question.labels:
             return True
-        return True if not question.labels.difference(query.labels) else False
+        return True if not query.labels.difference(question.labels) else False
 
     def _match_question_complexity(self, question: Question,
                                    query: QuestionQueryLine) -> bool:
@@ -89,18 +89,19 @@ def print_recommendations(recommendations:
     Prints generator recommendations
     """
     for rec in recommendations:
-        print(
-            f'''
-            -------------PARAMS--------------------
-            Questions: {rec.query.number_questions}
-            Category: {rec.query.category}
-            Complexity: {rec.query.complexity}
-            Labels: {rec.query.labels}
-            -------------QUESTIONS-----------------
-            '''
+        print(f'''
+        -------------PARAMS--------------------
+        Questions: {rec.query.number_questions}
+        Category: {rec.query.category}
+        Complexity: {rec.query.complexity}
+        Labels: {rec.query.labels}
+        -------------QUESTIONS-----------------
+        '''
         )
         for q in rec.questions:
             print(f'>>> {q.original_text}')
+            print(f'   possible-> {q.possible_answers}')
+            print(f'    correct-> {q.correct_answers}')
         print('---------------------------------------')
 
 
@@ -108,13 +109,15 @@ def main() -> None:
     """
     Entrypoint for the module
     """
-    adapter = AdapterJson(TEST_DATA)
+    adapter = AdapterJson(SRC_FOLDER / 'questions')
     manager = QuestionManager(adapter=adapter)
     queries = [
+        QuestionQueryLine(uuid4(), 3, "Программирование",
+                          ComplexityLevel.HARD, set(["Python", "Первая лекция"])),
+        QuestionQueryLine(uuid4(), 3, "Программирование",
+                          ComplexityLevel.MEDIUM, set(["Python", "Первая лекция"])),
         QuestionQueryLine(uuid4(), 4, "Программирование",
-                          ComplexityLevel.SIMPLE, set(["Python"])),
-        QuestionQueryLine(uuid4(), 2, None,
-                          ComplexityLevel.HARD)
+                          ComplexityLevel.SIMPLE, set(["Python", "Первая лекция"])),
     ]
     generator = RandomQuestionGenerator(manager=manager, queries=queries)
     print_recommendations(generator.get_recommendations())
