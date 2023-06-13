@@ -10,13 +10,13 @@ try:
     from src.question_manager import QuestionManager
     from src.question import Question, QuestionQueryLine, \
         ComplexityLevel, QuestionRecommendation
-    from src.constants import TEST_DATA, SRC_FOLDER
+    from src.constants import SRC_FOLDER
 except ModuleNotFoundError:
     from question_adapters import AdapterJson
     from question_manager import QuestionManager
     from question import Question, QuestionQueryLine, \
         ComplexityLevel, QuestionRecommendation
-    from constants import TEST_DATA, SRC_FOLDER
+    from constants import SRC_FOLDER
 
 
 class RandomQuestionGenerator:
@@ -96,8 +96,7 @@ def print_recommendations(recommendations:
         Complexity: {rec.query.complexity}
         Labels: {rec.query.labels}
         -------------QUESTIONS-----------------
-        '''
-        )
+        ''')
         for q in rec.questions:
             print(f'>>> {q.original_text}')
             print(f'   possible-> {q.possible_answers}')
@@ -112,12 +111,19 @@ def main() -> None:
     adapter = AdapterJson(SRC_FOLDER / 'questions')
     manager = QuestionManager(adapter=adapter)
     queries = [
+        QuestionQueryLine(id=uuid4(), number_questions=2,
+                          category="Программирование",
+                          complexity=None,
+                          labels=set(["Python", "Первая лекция"])),
+        QuestionQueryLine(uuid4(), 2, "Программирование",
+                          ComplexityLevel.HARD,
+                          set(["Python", "Вторая лекция"])),
         QuestionQueryLine(uuid4(), 3, "Программирование",
-                          ComplexityLevel.HARD, set(["Python", "Первая лекция"])),
+                          ComplexityLevel.MEDIUM,
+                          set(["Python", "Вторая лекция"])),
         QuestionQueryLine(uuid4(), 3, "Программирование",
-                          ComplexityLevel.MEDIUM, set(["Python", "Первая лекция"])),
-        QuestionQueryLine(uuid4(), 4, "Программирование",
-                          ComplexityLevel.SIMPLE, set(["Python", "Первая лекция"])),
+                          ComplexityLevel.SIMPLE,
+                          set(["Python", "Вторая лекция"])),
     ]
     generator = RandomQuestionGenerator(manager=manager, queries=queries)
     print_recommendations(generator.get_recommendations())

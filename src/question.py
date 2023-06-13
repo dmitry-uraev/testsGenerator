@@ -29,7 +29,7 @@ class Question:
     labels: set[str] | None = None
     complexity: ComplexityLevel | None = None
     possible_answers: list[str] | None = None
-    correct_answers: list[str or int] | None = None
+    correct_answers: list[str | int] | None = None
 
 
 class QuestionQueryLine(NamedTuple):
