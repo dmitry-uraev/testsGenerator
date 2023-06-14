@@ -9,14 +9,9 @@ from abc import ABC
 from pathlib import Path
 from uuid import uuid4
 
-try:
-    from src.question import Question, ComplexityLevel
-    from src.constants import TEST_DATA
-    from src.errors import PathNotExists
-except ModuleNotFoundError:
-    from question import Question, ComplexityLevel
-    from constants import TEST_DATA
-    from errors import PathNotExists
+from src.question import Question, ComplexityLevel
+from src.constants import TEST_DATA
+from src.errors import PathNotExists
 
 
 class Adapter(ABC):

@@ -2,14 +2,9 @@
 Question manager implementation
 """
 
-try:
-    from src.question_adapters import AdapterJson
-    from src.constants import TEST_DATA
-    from src.question import Question
-except ModuleNotFoundError:
-    from question_adapters import AdapterJson
-    from constants import TEST_DATA
-    from question import Question
+from src.question_adapters import AdapterJson
+from src.constants import TEST_DATA
+from src.question import Question
 
 
 class QuestionManager:

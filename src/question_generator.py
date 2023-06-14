@@ -5,18 +5,11 @@ Simple question generation mechanism
 import random
 from uuid import uuid4
 
-try:
-    from src.question_adapters import AdapterJson
-    from src.question_manager import QuestionManager
-    from src.question import Question, QuestionQueryLine, \
-        ComplexityLevel, QuestionRecommendation
-    from src.constants import SRC_FOLDER
-except ModuleNotFoundError:
-    from question_adapters import AdapterJson
-    from question_manager import QuestionManager
-    from question import Question, QuestionQueryLine, \
-        ComplexityLevel, QuestionRecommendation
-    from constants import SRC_FOLDER
+from src.question_adapters import AdapterJson
+from src.question_manager import QuestionManager
+from src.question import Question, QuestionQueryLine, \
+    ComplexityLevel, QuestionRecommendation
+from src.constants import SRC_FOLDER
 
 
 class RandomQuestionGenerator:
